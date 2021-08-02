@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Section from '../Components/section/Section';
 import Form from '../Components/form/Form';
 import {v4 as uuidv4} from 'uuid'
-import Contacts from '../Components/contacts/Contacts';
+import ContactsList from '../Components/contactsList/ContactsList';
 import Filter from '../Components/filter/Filter';
 
 export class App extends Component {
@@ -15,19 +15,26 @@ export class App extends Component {
     state={...this._INITIAL_STATE_}
 
     addContact=(name,number)=>{
-        if(this.state.contacts.some(i=>i.number===number)){
+
+        
+        let incorrectName = false
+
+        if(this.state.contacts.some(i=>{
+            incorrectName = i.name.toLowerCase()===name.toLowerCase()
+            return i.number===number || incorrectName
+        })){
+            incorrectName ?
+            alert("This person is already exist.") :
             alert("This phone is already exist.")
-            return 1;
+            return true
         }
-        if(this.state.contacts.some(i=>i.name===name)){
-            alert("This person is already exist.")
-            return 1;
-        }
+        
         this.setState(prev=>{
             prev.contacts.push({id:uuidv4(),name,number})
             return prev
         })
-        return 0;
+
+        return false
     }
 
     delContact=(e)=>{
@@ -48,7 +55,7 @@ export class App extends Component {
                 </Section>
                 <Section title="Contacts">
                     <Filter value={this.state.filter} onChange={this.filter}/>
-                    <Contacts 
+                    <ContactsList 
                         contacts={this.state.contacts} 
                         onDelete={this.delContact} 
                         filter={this.state.filter}

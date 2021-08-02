@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Contact from './contact/Contact';
+import ContactItem from './contactItem/ContactItem';
 
 function Contacts({contacts, onDelete, filter}) {
     filter=filter.split(" ").join("").toLowerCase()
@@ -8,7 +8,7 @@ function Contacts({contacts, onDelete, filter}) {
     return (
         <ul>
             {contacts.map(contact=>(
-                <Contact key={contact.id} contact={contact} onDelete={onDelete} />
+                <ContactItem key={contact.id} contact={contact} onDelete={onDelete} />
             ))}
         </ul>
     )

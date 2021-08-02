@@ -22,7 +22,11 @@ export default class Form extends Component {
     handleSubmit=(e)=>{
         e.preventDefault()
 
+        let incorrectName = false
+        
+
         if(this.props.addContact(this.state.name,this.state.number)) return
+            
         this.setState({...this._INITIAL_STATE_})
     }
 
