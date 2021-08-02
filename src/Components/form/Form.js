@@ -20,10 +20,7 @@ export default class Form extends Component {
     }
 
     handleSubmit=(e)=>{
-        e.preventDefault()
-
-        let incorrectName = false
-        
+        e.preventDefault()       
 
         if(this.props.addContact(this.state.name,this.state.number)) return
             
