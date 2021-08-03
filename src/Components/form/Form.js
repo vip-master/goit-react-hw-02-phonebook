@@ -6,6 +6,11 @@ export default class Form extends Component {
 
     static propTypes={
         addContact: PropTypes.func.isRequired,
+        contacts: PropTypes.arrayOf(PropTypes.shape({
+        	name: PropTypes.string.isRequired,
+        	number: PropTypes.string.isRequired,
+        	id: PropTypes.string.isRequired,
+        })).isRequired,
     }
 
     _INITIAL_STATE_={
@@ -15,14 +20,27 @@ export default class Form extends Component {
 
     state={...this._INITIAL_STATE_}
 
-    handleChange=(e)=>{
-        this.setState({[e.target.name]: e.target.value.trim()})
+    handleChange=({target:{name,value}})=>{
+        this.setState({[name]: value.trim()})
     }
 
     handleSubmit=(e)=>{
-        e.preventDefault()       
+        e.preventDefault()  
 
-        if(this.props.addContact(this.state.name,this.state.number)) return
+        let incorrectName = false
+
+        const {name,number}=this.state
+
+        if(this.props.contacts.some(i=>{
+            incorrectName = i.name.toLowerCase()===name.toLowerCase()
+            return i.number===number || incorrectName
+        })){
+            incorrectName ?
+            alert("This person is already exist.") :
+            alert("This phone is already exist.")
+        }     
+
+        this.props.addContact(name,number)
             
         this.setState({...this._INITIAL_STATE_})
     }

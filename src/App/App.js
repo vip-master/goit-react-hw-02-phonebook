@@ -14,27 +14,11 @@ export class App extends Component {
 
     state={...this._INITIAL_STATE_}
 
-    addContact=(name,number)=>{
-
-        
-        let incorrectName = false
-
-        if(this.state.contacts.some(i=>{
-            incorrectName = i.name.toLowerCase()===name.toLowerCase()
-            return i.number===number || incorrectName
-        })){
-            incorrectName ?
-            alert("This person is already exist.") :
-            alert("This phone is already exist.")
-            return true
-        }
-        
+    addContact=(name,number)=>{        
         this.setState(prev=>{
             prev.contacts.push({id:uuidv4(),name,number})
             return prev
         })
-
-        return false
     }
 
     delContact=(e)=>{
@@ -51,7 +35,7 @@ export class App extends Component {
             <>
                 <h1>Phonebook</h1>
                 <Section title="">
-                    <Form addContact={this.addContact}/>
+                    <Form addContact={this.addContact} contacts={this.state.contacts}/>
                 </Section>
                 <Section title="Contacts">
                     <Filter value={this.state.filter} onChange={this.filter}/>
